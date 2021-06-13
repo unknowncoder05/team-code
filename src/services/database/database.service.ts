@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Client } from 'pg';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm'; // 👈 import
@@ -33,26 +33,32 @@ export class DatabaseService {
             "2": "rust"
         }
     }
-    async createProject(name: string, description: string, location: string) {
+    async createProject(name: string, description: string, location: string): Promise<object> {
         let poject = this.projectRepo.create({ name, description, location })
         await this.projectRepo.save(poject)
         return { id: poject.id };
     }
-    getProject(id): object {
-        return {
-            data: this.projectRepo.findOne(id)
-        };
+    async getProject(id: number): Promise<object> {
+        const project = await this.projectRepo.findOne(id);
+        if (!project) {
+            throw new NotFoundException(`Product #${id} not found`);
+        }
+        return project;
     }
-    getProjects(params): object {
-        //this.clientPg.query("SELECT * FROM projects")
-        return {
-            data: this.projectRepo.find()
-        };
+    async getProjects(params): Promise<object> {
+        let data = await this.projectRepo.find()
+        return data;
     }
-    updateProject(id, payload): object {
-        return { data: this.db.projects[id] };
+    async updateProject(id: number, payload: object): Promise<object> {
+        const project = await this.projectRepo.findOne(id);
+        this.projectRepo.merge(project, payload);
+        return await this.projectRepo.save(project);
     }
-    deleteProject(id): object {
-        return { data: this.db.projects[id] };
+    async deleteProject(id: number): Promise<boolean> {
+        let deleted = await this.projectRepo.delete(id)
+        if (deleted.affected != 1) {
+            return false
+        }
+        return true
     }
 }

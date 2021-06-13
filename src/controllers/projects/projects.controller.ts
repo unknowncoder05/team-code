@@ -6,17 +6,17 @@ export class ProjectsController {
     constructor(private databaseService: DatabaseService) { }
     @Get(":projectID")
     @HttpCode(HttpStatus.FOUND)
-    get(@Param("projectID") projectID: string): object {
-        return { data: "maintenance" }//AppService.getProject(projectID);
+    async get(@Param("projectID") projectID: number): Promise<object> {
+        return { data: await this.databaseService.getProject(projectID) }//AppService.getProject(projectID);
     }
     @Get()
     @HttpCode(HttpStatus.FOUND)
-    list(@Query() params: any): object {
-        return this.databaseService.getProjects(params);
+    async list(@Query() params: any): Promise<object> {
+        return { data: await this.databaseService.getProjects(params) }
     }
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() payload: any) {
+    async create(@Body() payload: any): Promise<object> {
         const { name, description, location } = payload
         let newProduct = await this.databaseService.createProject(name, description, location)
 
@@ -24,17 +24,17 @@ export class ProjectsController {
     }
     @Put(":projectID")
     @HttpCode(HttpStatus.ACCEPTED)
-    update(@Param("projectID") projectID: string, @Body() payload: any): object {
-        return this.databaseService.updateProject(projectID, payload);
+    async update(@Param("projectID") projectID: number, @Body() payload: any): Promise<object> {
+        return { msg: "updated", data: await this.databaseService.updateProject(projectID, payload) }
     }
     @Delete(":projectID")
-    delete(@Res() response: Response, @Param("projectID") projectID: string) {
-        let deleted = this.databaseService.deleteProject(projectID)
+    async delete(@Res() response: Response, @Param("projectID") projectID: number) {
+        let deleted = await this.databaseService.deleteProject(projectID)
         let status = HttpStatus.OK,
             res = { msg: "deleted" }
-        if (projectID != "1") {
+        if (!deleted) {
+            res.msg = "not found"
             status = HttpStatus.NOT_FOUND
-            res = { msg: "project not found" }
         }
         response.status(status).send(res)
     }
