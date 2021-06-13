@@ -1,7 +1,7 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Client } from 'pg';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm'; // 👈 import
+import { Repository } from 'typeorm';
 
 import { Project } from './../../entities/project.entity';
 @Injectable()
@@ -11,27 +11,6 @@ export class DatabaseService {
         @InjectRepository(Project) private projectRepo: Repository<Project>,
     ) {
         //this.clientPg.query("SELECT * FROM projects")
-    }
-    db = {
-        projects: {
-            "0": {
-                name: "project1",
-                year: 2020
-            },
-            "1": {
-                name: "project2",
-                year: 2020
-            },
-            "2": {
-                name: "project3",
-                year: 2021
-            },
-        },
-        languages: {
-            "0": "python",
-            "1": "javascript",
-            "2": "rust"
-        }
     }
     async createProject(name: string, description: string, location: string): Promise<object> {
         let poject = this.projectRepo.create({ name, description, location })

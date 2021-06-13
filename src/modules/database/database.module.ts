@@ -20,7 +20,7 @@ client.connect();*/
                     username,
                     password,
                     database,
-                    synchronize: true,
+                    synchronize: false,
                     autoLoadEntities: true,
                 }
             }

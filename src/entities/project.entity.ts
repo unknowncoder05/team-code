@@ -1,4 +1,10 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import {
+    PrimaryGeneratedColumn,
+    Column,
+    Entity,
+    CreateDateColumn,
+    UpdateDateColumn
+} from 'typeorm';
 
 @Entity()
 export class Project {
@@ -13,4 +19,10 @@ export class Project {
 
     @Column({ type: 'varchar' })
     location: string;
+
+    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+    creationDate: string;
+
+    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+    upadatenDate: string;
 }
