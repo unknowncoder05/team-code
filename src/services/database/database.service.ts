@@ -1,17 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { Client } from "pg";
+import { Injectable, Inject } from '@nestjs/common';
+import { Client } from 'pg';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm'; // 👈 import
 
-
-const client = new Client({
-    user: 'root',
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-    port: parseInt(process.env.DB_PORT),
-});
-
+import { Project } from './../../entities/project.entity';
 @Injectable()
 export class DatabaseService {
+    constructor(
+        //@Inject('PG') private clientPg: Client,
+        @InjectRepository(Project) private projectRepo: Repository<Project>,
+    ) {
+        //this.clientPg.query("SELECT * FROM projects")
+    }
     db = {
         projects: {
             "0": {
@@ -33,14 +33,21 @@ export class DatabaseService {
             "2": "rust"
         }
     }
-    createProject(params): object {
-        return { data: params };
+    async createProject(name: string, description: string, location: string) {
+        let poject = this.projectRepo.create({ name, description, location })
+        await this.projectRepo.save(poject)
+        return { id: poject.id };
     }
     getProject(id): object {
-        return { data: this.db.projects[id] };
+        return {
+            data: this.projectRepo.findOne(id)
+        };
     }
     getProjects(params): object {
-        return { data: params };
+        //this.clientPg.query("SELECT * FROM projects")
+        return {
+            data: this.projectRepo.find()
+        };
     }
     updateProject(id, payload): object {
         return { data: this.db.projects[id] };

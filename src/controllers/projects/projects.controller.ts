@@ -16,8 +16,11 @@ export class ProjectsController {
     }
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    create(@Body() payload: any): object {
-        return this.databaseService.createProject(payload);
+    async create(@Body() payload: any) {
+        const { name, description, location } = payload
+        let newProduct = await this.databaseService.createProject(name, description, location)
+
+        return { msg: "created", data: newProduct };
     }
     @Put(":projectID")
     @HttpCode(HttpStatus.ACCEPTED)
