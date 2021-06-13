@@ -1,9 +1,9 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import { Client } from 'pg';
+//import { Client } from 'pg';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Project } from './../../entities/project.entity';
+import { Project } from '../../entities/project.entity';
 @Injectable()
 export class DatabaseService {
     constructor(
@@ -20,23 +20,29 @@ export class DatabaseService {
     async getProject(id: number): Promise<object> {
         const project = await this.projectRepo.findOne(id);
         if (!project) {
-            throw new NotFoundException(`Product #${id} not found`);
+            throw new NotFoundException(`product with id ${id} not found`);
         }
         return project;
     }
     async getProjects(params): Promise<object> {
-        let data = await this.projectRepo.find()
-        return data;
+        const projects = await this.projectRepo.find();
+        if (!projects) {
+            throw new NotFoundException(`no products found`);
+        }
+        return projects;
     }
     async updateProject(id: number, payload: object): Promise<object> {
         const project = await this.projectRepo.findOne(id);
+        if (!project) {
+            throw new NotFoundException(`product with id ${id} not found`);
+        }
         this.projectRepo.merge(project, payload);
         return await this.projectRepo.save(project);
     }
     async deleteProject(id: number): Promise<boolean> {
         let deleted = await this.projectRepo.delete(id)
         if (deleted.affected != 1) {
-            return false
+            throw new NotFoundException(`product with id ${id} not found`);
         }
         return true
     }
