@@ -4,8 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Project } from '../../entities/project.entity';
+
 @Injectable()
-export class DatabaseService {
+export class ProjectService {
+    plural = "projects";
+    singular = "project";
     constructor(
         //@Inject('PG') private clientPg: Client,
         @InjectRepository(Project) private projectRepo: Repository<Project>,
@@ -20,21 +23,21 @@ export class DatabaseService {
     async getProject(id: number): Promise<object> {
         const project = await this.projectRepo.findOne(id);
         if (!project) {
-            throw new NotFoundException(`product with id ${id} not found`);
+            throw new NotFoundException(`${this.singular} with id ${id} not found`);
         }
         return project;
     }
     async getProjects(params): Promise<object> {
         const projects = await this.projectRepo.find();
         if (!projects) {
-            throw new NotFoundException(`no products found`);
+            throw new NotFoundException(`no ${this.plural} found`);
         }
         return projects;
     }
     async updateProject(id: number, payload: object): Promise<object> {
         const project = await this.projectRepo.findOne(id);
         if (!project) {
-            throw new NotFoundException(`product with id ${id} not found`);
+            throw new NotFoundException(`${this.singular} with id ${id} not found`);
         }
         this.projectRepo.merge(project, payload);
         return await this.projectRepo.save(project);
@@ -42,7 +45,7 @@ export class DatabaseService {
     async deleteProject(id: number): Promise<boolean> {
         let deleted = await this.projectRepo.delete(id)
         if (deleted.affected != 1) {
-            throw new NotFoundException(`product with id ${id} not found`);
+            throw new NotFoundException(`${this.singular} with id ${id} not found`);
         }
         return true
     }

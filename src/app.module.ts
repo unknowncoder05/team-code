@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProjectsController } from './controllers/projects/projects.controller';
 import { LanguagesController } from './controllers/languages/languages.controller';
-import { DatabaseService } from './services/database/database.service';
 import { DatabaseModule } from './modules/database/database.module';
 import { ConfigModule } from '@nestjs/config';
+import { ProjectService } from './services/project/project.service';
+import { LanguageService } from './services/language/language.service';
 import config from './config';
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import config from './config';
     DatabaseModule,
   ],
   controllers: [AppController, ProjectsController, LanguagesController],
-  providers: [AppService, DatabaseService],
+  providers: [AppService, ProjectService, LanguageService],
 })
 export class AppModule { }
