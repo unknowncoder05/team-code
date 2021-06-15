@@ -3,6 +3,7 @@ import { Client } from "pg";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Project } from '../../entities/project.entity';
 import { Language } from '../../entities/language.entity';
+import { User } from '../../entities/user.entity';
 import { ConfigType } from '@nestjs/config';
 import config from '../../config';
 /*const client = new Client(dbConfig);
@@ -26,7 +27,7 @@ client.connect();*/
                 }
             }
         }),
-        TypeOrmModule.forFeature([Project, Language])
+        TypeOrmModule.forFeature([Project, Language, User])
     ],
     providers: [
         /*{

@@ -3,9 +3,17 @@ import {
     Column,
     Entity,
     CreateDateColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    OneToMany
 } from 'typeorm';
+import { Project } from './project.entity'
 
+
+export enum UserRole {
+    ADMIN = "admin",
+    EDITOR = "editor",
+    DEFAULT = "default"
+}
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -16,6 +24,27 @@ export class User {
 
     @Column({ type: 'varchar', length: 50, unique: true })
     email: string;
+
+    @Column({
+        type: "enum",
+        enum: UserRole,
+        default: UserRole.DEFAULT
+    })
+    role: UserRole;
+
+    @OneToMany(() => Project, photo => photo.owner, { nullable: true })
+    projects: Project
+
+    @Column({ type: 'varchar', length: 100 })
+    password: string
+
+
+
+
+
+
+
+
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     creationDate: string;

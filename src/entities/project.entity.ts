@@ -3,9 +3,10 @@ import {
     Column,
     Entity,
     CreateDateColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    ManyToOne
 } from 'typeorm';
-
+import { User } from './user.entity'
 @Entity()
 export class Project {
     @PrimaryGeneratedColumn()
@@ -20,9 +21,18 @@ export class Project {
     @Column({ type: 'varchar' })
     location: string;
 
+    @ManyToOne(() => User, user => user.projects)
+    owner: User;
+
+
+
+
+
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     creationDate: string;
 
     @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     upadatenDate: string;
+
+
 }
