@@ -19,8 +19,13 @@ export class UserService {
         let element = this.userRepo.create({ username, email, password: pswHash })
         await this.userRepo.save(element)
     }
-    /*async get(id: number): Promise<object> {
-        const user = await this.userRepo.findOne(id);
+    async get(id: number): Promise<object> {
+        const user = await this.userRepo.findOne(
+            {
+                where: { id },
+                select: ["username", "email", "role"]
+            }
+        );
         if (!user) {
             throw new NotFoundException(`${this.singular} with id ${id} not found`);
         }
@@ -32,7 +37,7 @@ export class UserService {
             creationDate: user.creationDate,
         }
     }
-
+    /*
 
     async list(params): Promise<object> {
         const users = await this.userRepo.find();

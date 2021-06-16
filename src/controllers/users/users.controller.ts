@@ -15,30 +15,30 @@ export class UsersController {
         return { msg: "created" };
     }
 
-    /*
-    @Get(":id")
+
+    /*@Get(":id")
     @HttpCode(HttpStatus.FOUND)
     async get(@Param("id", ParseIntPipe) id: number): Promise<object> {
         return { data: await this.languageService.get(id) }
-    }
-
-    @Get()
-    @HttpCode(HttpStatus.FOUND)
-    async list(@Query() params: any): Promise<object> {
-        return { data: await this.languageService.list(params) }
-    }
+    }*/
+    /*
+        @Get()
+        @HttpCode(HttpStatus.FOUND)
+        async list(@Query() params: any): Promise<object> {
+            return { data: await this.languageService.list(params) }
+        }
+        
+        @Put(":id")
+        @HttpCode(HttpStatus.ACCEPTED)
+        async update(@Param("id", ParseIntPipe) id: number, @Body(new JoiValidationPipe(createUserSchema)) payload: any): Promise<object> {
+            return { msg: "updated", data: await this.languageService.update(id, payload) }
+        }
     
-    @Put(":id")
-    @HttpCode(HttpStatus.ACCEPTED)
-    async update(@Param("id", ParseIntPipe) id: number, @Body(new JoiValidationPipe(createUserSchema)) payload: any): Promise<object> {
-        return { msg: "updated", data: await this.languageService.update(id, payload) }
-    }
-
-    @Delete(":id")
-    @HttpCode(HttpStatus.OK)
-    async delete(@Param("id", ParseIntPipe) id: number): Promise<object> {
-        let deleted = await this.languageService.delete(id)
-        return { msg: "deleted" }
-    }
-    */
+        @Delete(":id")
+        @HttpCode(HttpStatus.OK)
+        async delete(@Param("id", ParseIntPipe) id: number): Promise<object> {
+            let deleted = await this.languageService.delete(id)
+            return { msg: "deleted" }
+        }
+        */
 }
