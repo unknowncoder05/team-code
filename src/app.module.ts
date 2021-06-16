@@ -10,6 +10,8 @@ import { LanguageService } from './services/language/language.service';
 import { AuthModule } from './auth/auth.module';
 import { UserService } from './services/user/user.service';
 import { UsersController } from './controllers/users/users.controller';
+import { AuthService } from './services/auth/auth.service';
+import { AuthModule } from './modules/auth/auth.module';
 import config from './config';
 @Module({
   imports: [
@@ -23,6 +25,6 @@ import config from './config';
     AuthModule,
   ],
   controllers: [AppController, ProjectsController, LanguagesController, UsersController],
-  providers: [AppService, ProjectService, LanguageService, UserService],
+  providers: [AppService, ProjectService, LanguageService, UserService, AuthService],
 })
 export class AppModule { }

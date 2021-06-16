@@ -23,19 +23,25 @@ export class UserService {
         const user = await this.userRepo.findOne(
             {
                 where: { id },
-                select: ["username", "email", "role"]
+                select: ["username", "email", "role", "creationDate"]
             }
         );
         if (!user) {
             throw new NotFoundException(`${this.singular} with id ${id} not found`);
         }
-        return {
-            username: user.username,
-            email: user.email,
-            role: user.role,
-            projects: user.projects,
-            creationDate: user.creationDate,
+        return user
+    }
+    async getByEmail(email: string) {
+        const user = await this.userRepo.findOne(
+            {
+                where: { email },
+                select: ["username", "email", "role", "password", "creationDate"]
+            }
+        );
+        if (!user) {
+            throw new NotFoundException(`${this.singular} with email ${email} not found`);
         }
+        return user
     }
     /*
 
