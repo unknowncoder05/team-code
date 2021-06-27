@@ -8,6 +8,9 @@ export default registerAs('config', () => {
             password: process.env.DB_PASS,
             username: process.env.DB_USER,
             host: process.env.DB_HOST,
+        },
+        jwt:{
+            secret: process.env.JWT_SECRET
         }
     };
 });
