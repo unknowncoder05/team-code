@@ -42,22 +42,16 @@ export class UsersService {
         }
         return user
     }
-    /*
-
+    /**/
     async list(params): Promise<object> {
-        const users = await this.userRepo.find();
+        const users = await this.userRepo.find({
+            select: ["username", "email", "role", "creationDate"]
+        });
         if (!users) {
             throw new NotFoundException(`no ${this.plural} found`);
         }
-        return {
-            username: user.username,
-            email: user.email,
-            role: user.role,
-            projects: user.projects,
-            creationDate: user.creationDate,
-        }
         return users;
-    }
+    }/*
     async update(id: number, payload: object): Promise<object> {
         const element = await this.userRepo.findOne(id);
         if (!element) {

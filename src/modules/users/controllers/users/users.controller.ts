@@ -22,23 +22,23 @@ export class UsersController {
     async get(@Param("id", ParseIntPipe) id: number): Promise<object> {
         return { data: await this.languageService.get(id) }
     }*/
-    /*
+    /**/
         @Get()
         @HttpCode(HttpStatus.FOUND)
         async list(@Query() params: any): Promise<object> {
-            return { data: await this.languageService.list(params) }
-        }
+            return { data: await this.usersService.list(params) }
+        }/*
         
         @Put(":id")
         @HttpCode(HttpStatus.ACCEPTED)
         async update(@Param("id", ParseIntPipe) id: number, @Body(new JoiValidationPipe(createUserSchema)) payload: any): Promise<object> {
-            return { msg: "updated", data: await this.languageService.update(id, payload) }
+            return { msg: "updated", data: await this.usersService.update(id, payload) }
         }
     
         @Delete(":id")
         @HttpCode(HttpStatus.OK)
         async delete(@Param("id", ParseIntPipe) id: number): Promise<object> {
-            let deleted = await this.languageService.delete(id)
+            let deleted = await this.usersService.delete(id)
             return { msg: "deleted" }
         }
         */

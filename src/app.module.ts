@@ -10,7 +10,6 @@ import { ConfigModule } from '@nestjs/config';
 import { ProjectService } from './services/project/project.service';
 import { LanguageService } from './services/language/language.service';
 import { AuthModule } from './modules/auth/auth.module';
-import { AuthController } from './controllers/auth/auth.controller';
 import { UsersModule } from './modules/users/users.module';
 
 
@@ -27,7 +26,7 @@ import config from './config';
     AuthModule,
     UsersModule,
   ],
-  controllers: [AppController, ProjectsController, LanguagesController, AuthController],
+  controllers: [AppController, ProjectsController, LanguagesController],
   providers: [AppService, ProjectService, LanguageService],
 })
 export class AppModule { }
