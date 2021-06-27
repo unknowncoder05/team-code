@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { UserService } from './../user/user.service'
+import { UsersService } from './../../../users/services/users/users.service'
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-    constructor(private userService: UserService) { }
+    constructor(private userService: UsersService) { }
 
     async validateUser(email: string, password: string) {
         const user = await this.userService.getByEmail(email)
