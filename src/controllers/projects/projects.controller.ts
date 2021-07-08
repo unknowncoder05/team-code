@@ -7,26 +7,32 @@ import {AuthGuard} from '@nestjs/passport'
 import { JoiValidationPipe } from '../../pipe/joi-validation.pipe'
 import { ProjectService } from './../../services/project/project.service';
 import { projectSchema } from './../../schemas/project.schema';
-import { JwtAuthGuard, Public } from '../../modules/auth/guards/jwt-auth.guard'
-
-
-@UseGuards(JwtAuthGuard)
+import { JwtAuthGuard } from '../../modules/auth/guards/jwt-auth.guard'
+import { RolesGuard } from '../../modules/auth/guards/roles.guard'
+import { Public } from '../../modules/auth/decorators/public.decorator'
+import { Roles } from '../../modules/auth/decorators/roles.decorator'
+import { Role } from '../../entities/user.entity'
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('project')
 export class ProjectsController {
     constructor(private projectService: ProjectService) { }
     @Public()
+    @Roles(Role.DEFAULT)
     @Get(":projectID")
     @HttpCode(HttpStatus.FOUND)
     async get(@Param("projectID", ParseIntPipe) projectID: number): Promise<object> {
         return { data: await this.projectService.getProject(projectID) }//AppService.getProject(projectID);
     }
     @Public()
+    @Roles(Role.DEFAULT)
     @Get()
     @HttpCode(HttpStatus.FOUND)
     async list(@Query() params: any): Promise<object> {
         return { data: await this.projectService.getProjects(params) }
     }
+    
     @Post()
+    @Roles(Role.DEFAULT)
     @HttpCode(HttpStatus.CREATED)
     @UsePipes(new JoiValidationPipe(projectSchema))
     async create(@Body() payload: any): Promise<object> {
@@ -35,6 +41,8 @@ export class ProjectsController {
 
         return { msg: "created", data: newProduct };
     }
+    
+    @Roles(Role.DEFAULT)
     @Put(":projectID")
     @HttpCode(HttpStatus.ACCEPTED)
     async update(@Param("projectID", ParseIntPipe) projectID: number, @Body(new JoiValidationPipe(projectSchema)) payload: any): Promise<object> {

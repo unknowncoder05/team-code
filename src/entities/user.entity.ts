@@ -9,9 +9,8 @@ import {
 import { Project } from './project.entity'
 
 
-export enum UserRole {
+export enum Role {
     ADMIN = "admin",
-    EDITOR = "editor",
     DEFAULT = "default"
 }
 @Entity()
@@ -27,10 +26,10 @@ export class User {
 
     @Column({
         type: "enum",
-        enum: UserRole,
-        default: UserRole.DEFAULT
+        enum: Role,
+        default: Role.DEFAULT
     })
-    role: UserRole;
+    role: Role;
 
     @OneToMany(() => Project, photo => photo.owner, { nullable: true })
     projects: Project

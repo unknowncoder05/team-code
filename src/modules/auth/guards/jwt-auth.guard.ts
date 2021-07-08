@@ -3,24 +3,19 @@ import { Reflector } from '@nestjs/core';
 
 import { AuthGuard } from '@nestjs/passport'
 
-import { SetMetadata } from '@nestjs/common';
-
-export const IS_PUBLIC = 'isPublic';
-
-export const Public = () => SetMetadata(IS_PUBLIC, true);
-
+import { IS_PUBLIC_KEY } from '../decorators/public.decorator'
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt'){
   constructor(private reflector: Reflector) {
     super()
   }
-  canActivate(ctx: ExecutionContext){
-    const isPublic = this.reflector.get(IS_PUBLIC, ctx.getHandler())
+  canActivate(context: ExecutionContext){
+    const isPublic = this.reflector.get(IS_PUBLIC_KEY, context.getHandler())
     
     if(isPublic){
       return true
     }
-    return super.canActivate(ctx)
+    return super.canActivate(context)
   }
 }
