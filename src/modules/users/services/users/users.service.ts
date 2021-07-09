@@ -18,7 +18,7 @@ export class UsersService {
         let element = this.userRepo.create({ username, email, password: pswHash })
         await this.userRepo.save(element)
     }
-    async get(id: number): Promise<object> {
+    async get(id: number) {
         const user = await this.userRepo.findOne(
             {
                 where: { id },
@@ -34,7 +34,7 @@ export class UsersService {
         const user = await this.userRepo.findOne(
             {
                 where: { email },
-                select: ["username", "email", "role", "password", "creationDate"]
+                select: ["id","username", "email", "role", "password", "creationDate"]
             }
         );
         if (!user) {

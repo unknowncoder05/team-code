@@ -17,14 +17,12 @@ import { Role } from '../../entities/user.entity'
 export class ProjectsController {
     constructor(private projectService: ProjectService) { }
     @Public()
-    @Roles(Role.DEFAULT)
     @Get(":projectID")
     @HttpCode(HttpStatus.FOUND)
     async get(@Param("projectID", ParseIntPipe) projectID: number): Promise<object> {
         return { data: await this.projectService.getProject(projectID) }//AppService.getProject(projectID);
     }
     @Public()
-    @Roles(Role.DEFAULT)
     @Get()
     @HttpCode(HttpStatus.FOUND)
     async list(@Query() params: any): Promise<object> {
@@ -48,6 +46,7 @@ export class ProjectsController {
     async update(@Param("projectID", ParseIntPipe) projectID: number, @Body(new JoiValidationPipe(projectSchema)) payload: any): Promise<object> {
         return { msg: "updated", data: await this.projectService.updateProject(projectID, payload) }
     }
+    @Roles(Role.DEFAULT)
     @Delete(":projectID")
     async delete(@Param("projectID", ParseIntPipe) projectID: number): Promise<object> {
         let deleted = await this.projectService.deleteProject(projectID)

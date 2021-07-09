@@ -22,10 +22,11 @@ export class AuthService {
         return null
     }
     generateJWT(user) {
-        const payload = { id: user.id };
+        const payload = { sub: user.id };
+        const {id,password,...resUsser} = user
         return {
           access_token: this.jwtService.sign(payload),
-          user,
+          resUsser,
         };
       }
 }
