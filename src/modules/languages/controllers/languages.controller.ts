@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, Post, Put, Delete, HttpCode, HttpStatus, ParseIntPipe, UsePipes, Body } from '@nestjs/common';
-import { JoiValidationPipe } from '../../pipe/joi-validation.pipe'
-import { LanguageService } from './../../services/language/language.service';
-import { languageSchema } from './../../schemas/language.schema';
+import { JoiValidationPipe } from '../../../pipe/joi-validation.pipe'
+import { LanguageService } from '../services/language/language.service';
+import { languageSchema } from '../../../schemas/language.schema';
 @Controller('language')
 export class LanguagesController {
     constructor(private languageService: LanguageService) { }

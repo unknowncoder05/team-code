@@ -3,7 +3,7 @@ import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Language } from '../../entities/language.entity';
+import { Language } from '../../../../entities/language.entity';
 
 @Injectable()
 export class LanguageService {

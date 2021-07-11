@@ -4,14 +4,14 @@ import {
 } from '@nestjs/common';
 //import { Response } from "express"
 import {AuthGuard} from '@nestjs/passport'
-import { JoiValidationPipe } from '../../pipe/joi-validation.pipe'
-import { ProjectService } from './../../services/project/project.service';
-import { projectSchema } from './../../schemas/project.schema';
-import { JwtAuthGuard } from '../../modules/auth/guards/jwt-auth.guard'
-import { RolesGuard } from '../../modules/auth/guards/roles.guard'
-import { Public } from '../../modules/auth/decorators/public.decorator'
-import { Roles } from '../../modules/auth/decorators/roles.decorator'
-import { Role } from '../../entities/user.entity'
+import { JoiValidationPipe } from '../../../pipe/joi-validation.pipe'
+import { ProjectService } from './../services/project/project.service';
+import { projectSchema } from './../../../schemas/project.schema';
+import { JwtAuthGuard } from '../../../modules/auth/guards/jwt-auth.guard'
+import { RolesGuard } from '../../../modules/auth/guards/roles.guard'
+import { Public } from '../../../modules/auth/decorators/public.decorator'
+import { Roles } from '../../../modules/auth/decorators/roles.decorator'
+import { Role } from '../../../entities/user.entity'
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('project')
 export class ProjectsController {
