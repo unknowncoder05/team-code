@@ -7,11 +7,15 @@ import {AuthGuard} from '@nestjs/passport'
 import { JoiValidationPipe } from '../../../pipe/joi-validation.pipe'
 import { ProjectService } from './../services/project/project.service';
 import { projectSchema } from './../../../schemas/project.schema';
+
 import { JwtAuthGuard } from '../../../modules/auth/guards/jwt-auth.guard'
 import { RolesGuard } from '../../../modules/auth/guards/roles.guard'
 import { Public } from '../../../modules/auth/decorators/public.decorator'
 import { Roles } from '../../../modules/auth/decorators/roles.decorator'
 import { Role } from '../../../entities/user.entity'
+
+import { AuthUser } from '../../../modules/auth/decorators/authuser.decorator'
+
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('project')
 export class ProjectsController {
@@ -33,9 +37,12 @@ export class ProjectsController {
     @Roles(Role.DEFAULT)
     @HttpCode(HttpStatus.CREATED)
     @UsePipes(new JoiValidationPipe(projectSchema))
-    async create(@Body() payload: any): Promise<object> {
-        const { name, description, location } = payload
-        let newProduct = await this.projectService.createProject(name, description, location)
+    async create(@Body() payload: any, @AuthUser() user: any): Promise<object> {
+        const {  name, description, location } = payload
+        let owner = "1"
+        console.log(user);
+        
+        let newProduct = await this.projectService.createProject(owner, name, description, location)
 
         return { msg: "created", data: newProduct };
     }

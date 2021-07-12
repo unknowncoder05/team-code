@@ -51,7 +51,7 @@ export class UsersService {
             throw new NotFoundException(`no ${this.plural} found`);
         }
         return users;
-    }/*
+    }
     async update(id: number, payload: object): Promise<object> {
         const element = await this.userRepo.findOne(id);
         if (!element) {
@@ -66,5 +66,5 @@ export class UsersService {
             throw new NotFoundException(`${this.singular} with id ${id} not found`);
         }
         return true
-    }*/
+    }
 }

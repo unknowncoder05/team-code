@@ -15,7 +15,7 @@ export class ProjectService {
     ) {
         //this.clientPg.query("SELECT * FROM projects")
     }
-    async createProject(name: string, description: string, location: string): Promise<object> {
+    async createProject(owner: string, name: string, description: string, location: string): Promise<object> {
         let poject = this.projectRepo.create({ name, description, location })
         await this.projectRepo.save(poject)
         return { id: poject.id };
